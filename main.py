@@ -5,7 +5,7 @@ import datetime
 
 # Login (ou Registro) e Boas Vindas!
 user_name, nascimento = login()
-hora = datetime.now().time()
+hora = datetime.datetime.now().time()
 hora = hora.strftime('%H')
 hora = int(hora)
 
