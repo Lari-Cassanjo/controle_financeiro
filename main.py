@@ -3,9 +3,22 @@ from login import *
 from manipular_csv import *
 import datetime
 
-# Dados do Usuário
+# Login (ou Registro) e Boas Vindas!
 user_name, nascimento = login()
-print(f'Olá, {user_name[0]}! Você nasceu em {nascimento[0]}')
+hora = datetime.now().time()
+hora = hora.strftime('%H')
+hora = int(hora)
+
+if hora >= 6 and hora < 12:
+    cumprimento = 'Bom dia'
+elif hora >= 12 and hora < 18:
+    cumprimento = 'Boa tarde' 
+elif hora >=18 and hora < 23:
+    cumprimento = 'Boa noite'
+else:
+    cumprimento = 'Já está tarde'
+
+print(f'Olá, {user_name[0]}! {cumprimento}.')
 
 # Mensagem de Aniversário
 dia = datetime.date.today().day
