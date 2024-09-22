@@ -18,25 +18,33 @@ import csv
 #     print('Feliz Aniversário!')
 
 class Dados:
-    arquivo_financeiro = 'financeiro.csv'
+    ARQUIVO_FINANCEIRO = 'financeiro.csv'
+    COLUNAS = ['data','valor','tipo','descricao']
+    
     
     @classmethod
-    def iniciar_arquivo():
-        pass
-
-def inserir_dados(data='', valor=0.0, tipo='Saída', descricao=''):
-    with open('financeiro.csv', 'w',newline='',encoding='utf-8') as arquivo_financeiro:
-        fieldnames = ['data','valor','tipo','descricao']
-        writer = csv.DictWriter(arquivo_financeiro, fieldnames=fieldnames)
-        writer.writeheader()
+    def iniciar_arquivo(cls):
+        try:
+            pd.read_csv(cls.ARQUIVO_FINANCEIRO)
+        except FileNotFoundError:
+            df = pd.DataFrame(columns=cls.COLUNAS)
+            df.to_csv(cls.ARQUIVO_FINANCEIRO, index=False)
+    
+    @classmethod
+    def add_entrada(cls, data, valor, tipo, descricao):
         dado = {
             'data': data,
             'valor': valor,
             'tipo': tipo,
             'descricao': descricao
         }
-        writer.writerow(dado)
-
-d1 = inserir_dados('21/09/2024',233.45,'Saída','Farmácia')
-d2 = inserir_dados('09/08/2024',75.02,'Saída','Mercado')
-d3 = inserir_dados('11/09/2024',109.90,'Entrada','Projeto Josh')
+        with open(cls.ARQUIVO_FINANCEIRO, 'a',newline='',encoding='utf-8') as arquivocsv:
+            writer = csv.DictWriter(arquivocsv, fieldnames=cls.COLUNAS)
+            writer.writerow(dado)
+        print('Entrada adicionada com sucesso!')
+        
+            
+Dados.iniciar_arquivo()
+Dados.add_entrada('21/09/2024',233.45,'Saída','Farmácia')
+Dados.add_entrada('09/08/2024',75.02,'Saída','Mercado')
+Dados.add_entrada('11/09/2024',109.90,'Entrada','Projeto Josh')
