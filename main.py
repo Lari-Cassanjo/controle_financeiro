@@ -1,5 +1,6 @@
 from usuario import *
 from login import *
+from manipular_csv import *
 import datetime
 
 # Dados do Usuário
@@ -11,3 +12,6 @@ dia = datetime.date.today().day
 mes = datetime.date.today().month
 if nascimento[1] == dia and nascimento[2] == mes:
     print('Feliz Aniversário!')
+
+# Menu de Ações
+menu()
