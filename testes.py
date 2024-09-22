@@ -1,5 +1,6 @@
 from usuario import *
 from login import *
+from inserir_transacoes import *
 import pandas as pd
 import os
 import datetime
@@ -31,8 +32,8 @@ class Dados:
             df.to_csv(cls.ARQUIVO_FINANCEIRO, index=False)
     
     @classmethod
-    def add_entrada(cls, data, valor, tipo, descricao):
-        dado = {
+    def add_transacao(cls, data, valor, tipo, descricao):
+        nova_transacao = {
             'data': data,
             'valor': valor,
             'tipo': tipo,
@@ -40,11 +41,15 @@ class Dados:
         }
         with open(cls.ARQUIVO_FINANCEIRO, 'a',newline='',encoding='utf-8') as arquivocsv:
             writer = csv.DictWriter(arquivocsv, fieldnames=cls.COLUNAS)
-            writer.writerow(dado)
+            writer.writerow(nova_transacao)
         print('Entrada adicionada com sucesso!')
         
+def add():
+    Dados.iniciar_arquivo()
+    data = inserir_data('Insira a data da transação [dd/mm/aaaa] ou pressione ENTER para inserir a data de hoje: ', allow_default=True)
+    valor = inserir_valor()
+    tipo = inserir_tipo()
+    descricao = inserir_descricao()
+    Dados.add_transacao(data, valor, tipo, descricao)
             
-Dados.iniciar_arquivo()
-Dados.add_entrada('21/09/2024',233.45,'Saída','Farmácia')
-Dados.add_entrada('09/08/2024',75.02,'Saída','Mercado')
-Dados.add_entrada('11/09/2024',109.90,'Entrada','Projeto Josh')
+add()
